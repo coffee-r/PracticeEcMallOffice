@@ -10,7 +10,7 @@ use Inertia\Response;
 
 class LoginController extends Controller
 {
-    public function showLoginForm(): Response
+    public function show(): Response
     {
         return Inertia::render('Login', []);
     }
@@ -22,13 +22,5 @@ class LoginController extends Controller
         if($operator->password === $request->password) {
             Auth::login($operator);
         }
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect(route('login'));
     }
 }

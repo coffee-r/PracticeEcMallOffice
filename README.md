@@ -28,58 +28,117 @@ $ ./vendor/bin/sail npm install
 $ ./vendor/bin/sail npm run dev
 ```
 
-## DaisyUIの導入 (仮)
+## shadcn/uiの導入
 
-ここはデザイナーが組みやすいTailwindベースのものを使いたい
+https://ui.shadcn.com/docs/installation/laravel
 
 ```sh
-$ ./vendor/bin/sail npm install daisyui
-```
-
-```js
-// tailwind.config.js
-module.exports = {
-  plugins: [forms, daisyui],
-}
+$ npx shadcn-ui@latest init
+### 基本デフォルト値を使う
+### 以下だけ入力
+### Where is your global CSS file? … resources/css/app.css
 ```
 
 ## セッション管理をファイルベースに変更
 
 * .envファイル SESSION_DRIVER=file
 
-## 実装
+## 業務フローを考える
 
-### ダッシュボードUIを作る
+1. 出品者は出品者向けCMSで出品者登録を行う
+2. モール管理者はECモール管理者向けCMSで出品者を閲覧し審査を行う
+3. モール管理者の審査の結果がNGであれば、承認ステータスを却下に変更
+4. 出品者は出品者向けCMSで出品者登録を編集、再度申請する
+5. モール管理者の再審査の結果がOKであれば、承認ステータスを承認済みに変更
+6. 承認後、出品者は出品者向けCMSで様々な操作を行えるようになる
 
+この練習用リポジトリでは2,3,5を実装する。
 
-### usersでないテーブル(このプロジェクトではoperators)で認証できるようにする
+## 必要な画面洗い出し
 
+* ログインフォーム
+* ダッシュボードTOP
+* 出品者一覧
+* 出品者詳細 (フォーム表示、承認ステータスのみ編集して更新可能)
 
-参考 : https://qiita.com/n_oshiumi/items/a466ff2c8f20c3494538
+## テーブル設計
+
+* Operator (管理者ユーザー)
+  * id
+  * name 管理者名
+  * password
+* Seller (出品者)
+  * id
+  * name 出品者名
+  * email
+  * tel
+  * website_url
+  * approval_status 承認ステータス 'pending', 'approved', 'rejected'
+
+実務はもっと複雑だけれども今回練習用なので簡易的にした。
+
+## モデル・マイグレーションファイル作成
 
 ```sh
 $ php artisan make:Model Operator --migration
-```
-
-* Operatorモデルクラスを編集
-* マイグレーションファイルを編集したあと、マイグレーション実行
-
-```sh
+$ php artisan make:Model Seller --migration
+### マイグレーションファイル編集後、
 $ ./vendor/bin/sail artisan migrate
 ```
 
-ログインコントローラーを作成。
+## モデルファクトリの作成
 
 ```sh
-$ ./vendor/bin/sail artisan make:controller LoginController
+$ ./vendor/bin/sail artisan make:factory OperatorFactory
+$ ./vendor/bin/sail artisan make:factory SellerFactory
 ```
 
+## シーダーの作成と実行
 
-コードを書いていく。
+```sh
+$ ./vendor/bin/sail artisan make:seeder OperatorSeeder
+$ ./vendor/bin/sail artisan make:seeder SellerSeeder
+### 編集後
+$ ./vendor/bin/sail artisan db:seed --class=OperatorSeeder
+$ ./vendor/bin/sail artisan db:seed --class=SellerSeeder
+```
 
-* 出品者申請一覧を見る
-* 出品者申請詳細を見る
-* 出品者申請を承認する
+## コントローラーの作成
+
+```sh
+$ ./vendor/bin/sail artisan make:controller DashboardController
+$ ./vendor/bin/sail artisan make:controller SellerController
+```
+
+## v0を使ってUIのモックを作成
+
+https://v0.dev/
+
+## / → /dashboard のリダイレクト設定
+
+routes/web.php に記述
+
+## 認証されていないユーザーのリダイレクト
+
+参考 : https://qiita.com/horatjp/items/aa1dbb9641634ecc8c7d
+
+bootstrap/app.phpで
+
+```php
+->withMiddleware(function (Middleware $middleware) {
+    $middleware->redirectGuestsTo('/login');
+})
+```
+
+### usersでないテーブル(このプロジェクトではoperators)で認証できる設定を入れる
+
+参考 : https://qiita.com/n_oshiumi/items/a466ff2c8f20c3494538
+
+usersをoperatorsに差し替えていく。
+
+## ログインフォームの実装
+
+
 
 
 ## 各環境のDockerファイルを作る
