@@ -1,4 +1,4 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import { Card, CardContent, CardFooter } from "@/Components/ui/card"
 import { Label } from "@/Components/ui/label"
