@@ -1,11 +1,10 @@
 import { User } from "@/types";
 import { Link } from "@inertiajs/react";
 import { Package2Icon, PackageIcon, UsersIcon } from "lucide-react";
-import { SVGProps } from "react";
+import { SVGProps, useState } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 
 export default function SideMenu({ user }: { user: User }) {
-    
     return (
         <div className="hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40">
             <div className="flex h-full max-h-screen flex-col gap-2">
@@ -22,26 +21,23 @@ export default function SideMenu({ user }: { user: User }) {
                         </Link>
                         <Collapsible className="grid gap-2">
                             <CollapsibleTrigger className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 [&[data-state=open]>svg]:rotate-90">
-                                <PackageIcon className="h-4 w-4" />出品者申請
+                                <PackageIcon className="h-4 w-4" />出品者
                                 <ChevronRightIcon className="ml-auto h-4 w-4 transition-transform" />
                             </CollapsibleTrigger>
                             <CollapsibleContent>
                                 <nav className="grid gap-1 px-6">
                                     <Link href={route('sellers')} className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
-                                        <FileIcon className="h-4 w-4" />審査中
+                                        <UsersIcon className="h-4 w-4" />一覧
                                     </Link>
                                     <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
-                                        <CircleCheckIcon className="h-4 w-4" />承認済み
+                                        <CircleCheckIcon className="h-4 w-4" />メニューA
                                     </Link>
                                     <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
-                                        <CircleXIcon className="h-4 w-4" />却下
+                                        <CircleXIcon className="h-4 w-4" />メニューB
                                     </Link>
                                 </nav>
                             </CollapsibleContent>
                         </Collapsible>
-                        <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
-                            <UsersIcon className="h-4 w-4" />出品者
-                        </Link>
                         <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50">
                             <LineChartIcon className="h-4 w-4" />分析
                         </Link>

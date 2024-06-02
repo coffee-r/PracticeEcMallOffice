@@ -28,8 +28,8 @@ export default function SellerEdit({ auth, seller }: PageProps<{seller: Seller}>
                 <Card>
                     <form onSubmit={submit}>
                         <CardHeader>
-                            <CardTitle>出品者申請の説明</CardTitle>
-                            <CardDescription>ここに出品者申請の説明書き</CardDescription>
+                            <CardTitle>出品者の説明</CardTitle>
+                            <CardDescription>ここに出品者の説明書きここに出品者の説明書き</CardDescription>
                         </CardHeader>
                         <CardContent className="grid gap-6">
                             <div className="grid gap-2">

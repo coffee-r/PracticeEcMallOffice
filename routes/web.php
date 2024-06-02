@@ -27,7 +27,7 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::middleware('auth')->group(function () {
     // ログアウト
-    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // ダッシュボード
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
