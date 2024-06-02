@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Models\Operator;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -15,12 +15,20 @@ class LoginController extends Controller
         return Inertia::render('Login', []);
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $operator = Operator::where('id', $request->id)->firstOrFail();
+        // オペレーターを検索
+        $operator = Operator::where('id', $request->id)->first();
 
-        if($operator->password === $request->password) {
+        // 実務で触っている既存テーブルのパスワードが平文なので仕方なく平文でログイン
+        if ($operator->password === $request->password) {
             Auth::login($operator);
+            return redirect(route('dashboard'));
         }
+
+        // 認証失敗
+        return back()->withErrors([
+            'authError' => '認証情報が一致しません。'
+        ]);
     }
 }

@@ -1,12 +1,23 @@
-import { Link, Head } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import { Card, CardContent, CardFooter } from "@/Components/ui/card"
 import { Label } from "@/Components/ui/label"
 import { Input } from "@/Components/ui/input"
 import { Button } from "@/Components/ui/button"
-import { SVGProps } from 'react';
+import { FormEventHandler, SVGProps } from 'react';
 
-export default function Login({ auth }: PageProps<{}>) {
+export default function Login({ auth }: PageProps<{}>) {    
+
+    const { data, setData, post, processing, errors } = useForm({
+        id: '',
+        password: '',
+        authError: ''
+    })
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(route('login'));
+    };
 
     return (
         <>
@@ -14,27 +25,29 @@ export default function Login({ auth }: PageProps<{}>) {
             <div className="flex min-h-screen items-center justify-center bg-gray-100 dark:bg-gray-950">
                 <div className="w-full max-w-md space-y-8">
                     <div className="flex flex-col items-center gap-2">
-                    <MountainIcon className="h-10 w-10 text-primary" />
-                    <h1 className="text-3xl font-bold tracking-tight">Mall Dashboard</h1>
+                        <MountainIcon className="h-10 w-10 text-primary" />
+                        <h1 className="text-3xl font-bold tracking-tight">EC Mall Office</h1>
                     </div>
-                    <Card>
-                    
-                    <CardContent className="space-y-4 pt-4">
-                        <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="m@example.com" required />
-                        </div>
-                        <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                            <Label htmlFor="password">Password</Label>
-                        </div>
-                        <Input id="password" type="password" required />
-                        </div>
-                    </CardContent>
-                    <CardFooter>
-                        <Button className="w-full">Sign in</Button>
-                    </CardFooter>
-                    </Card>
+                    <form onSubmit={submit}>
+                        <Card>
+                            <CardContent className="space-y-4 pt-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="id">オペレーターコード</Label>
+                                    <Input value={data.id} onChange={e => setData('id', e.target.value)} id="id" placeholder="1" required />
+                                </div>
+                                <div className="space-y-2">
+                                    <div className="flex items-center justify-between">
+                                        <Label htmlFor="password">パスワード</Label>
+                                    </div>
+                                    <Input value={data.password} onChange={e => setData('password', e.target.value)} id="password" type="password" required />
+                                </div>
+                                {errors.authError && <p className="text-sm text-red-600 mt-2">{errors.authError}</p>}
+                            </CardContent>
+                            <CardFooter>
+                                <Button className="w-full">ログイン</Button>
+                            </CardFooter>
+                        </Card>
+                    </form>
                 </div>
             </div>
         </>
@@ -57,5 +70,5 @@ const MountainIcon = (props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) 
         >
           <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
         </svg>
-      )
+    )
 }
