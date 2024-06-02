@@ -148,6 +148,8 @@ usersをoperatorsに差し替えていく。
 https://inertiajs.com/shared-data
 参考にする
 
+## PHPUnitでテストコードを書く
+
 ## 各環境のDockerファイルを作る
 
 ## Oracleと接続させる
