@@ -1,9 +1,7 @@
 import { usePage } from "@inertiajs/react";
 
 export default function FlashMessage() {
-
     const { flashSuccessMessage, flashFailMessage } = usePage<any>().props
-
     return (
         <>
             {flashSuccessMessage && (

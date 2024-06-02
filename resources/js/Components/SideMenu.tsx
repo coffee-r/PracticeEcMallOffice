@@ -1,7 +1,7 @@
 import { User } from "@/types";
 import { Link } from "@inertiajs/react";
 import { Package2Icon, PackageIcon, UsersIcon } from "lucide-react";
-import { SVGProps, useState } from "react";
+import { SVGProps } from "react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 
 export default function SideMenu({ user }: { user: User }) {
