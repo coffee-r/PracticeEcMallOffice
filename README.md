@@ -41,7 +41,13 @@ $ npx shadcn-ui@latest init
 
 ## セッション管理をファイルベースに変更
 
-* .envファイル SESSION_DRIVER=file
+* config/session.php
+* .env SESSION_DRIVER=file
+
+## 日本の設定
+
+* config/app.php タイムゾーン、ロケールを変更
+* .env タイムゾーン、ロケールを変更
 
 ## 業務フローを考える
 
