@@ -148,6 +148,17 @@ usersをoperatorsに差し替えていく。
 https://inertiajs.com/shared-data
 参考にする
 
+## VSCodeで 「import { Label } from "@/Components/ui/label"」 でエラー表示する事象を解消させる
+
+resources/js/Components/ui/form.tsx
+に変更を加える。
+
+```
+import { Label } from "@/components/ui/label"
+↓
+import { Label } from "@/Components/ui/label"
+```
+
 ## PHPUnitでテストコードを書く
 
 ## 各環境のDockerファイルを作る
